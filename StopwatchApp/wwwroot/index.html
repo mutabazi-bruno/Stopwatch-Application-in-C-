@@ -4,14 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Stopwatch</title>
+    <title>Stopwatch</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <div class="bg-layer"></div>
+    <div class="particles" id="particles"></div>
+    <div class="energy-rings">
+        <div class="ring ring-1"></div>
+        <div class="ring ring-2"></div>
+        <div class="ring ring-3"></div>
+    </div>
+    <div class="overlay"></div>
+
     <div class="container">
         <div class="glass-panel">
-            <h1 class="title">Stopwatch</h1>
+            <h1 class="title">&#x267B; Stopwatch &#x267B;</h1>
             <div class="timer-display" id="timer">00:00:00</div>
             <div class="status" id="status">Ready</div>
 
@@ -28,7 +37,6 @@
     <script>
         function sendMessage(action) {
             if (window.chrome && window.chrome.webview) {
-                // Send as a plain string for simpler handling in C#
                 window.chrome.webview.postMessage(action);
             }
         }
@@ -72,6 +80,29 @@
                 btnStop.disabled = true;
             }
         }
+
+        (function spawnParticles() {
+            const container = document.getElementById('particles');
+            const colors = ['#7b2ff7', '#ff2d6b', '#00e1ff', '#b026ff', '#ff6b2d'];
+            for (let i = 0; i < 35; i++) {
+                const p = document.createElement('span');
+                const size = Math.random() * 6 + 2;
+                p.style.cssText = `
+                    position:absolute;
+                    width:${size}px;height:${size}px;
+                    background:${colors[Math.floor(Math.random()*colors.length)]};
+                    border-radius:50%;
+                    left:${Math.random()*100}%;
+                    top:${Math.random()*100}%;
+                    opacity:${Math.random()*0.7+0.2};
+                    animation:floatUp ${Math.random()*8+6}s linear infinite;
+                    animation-delay:${Math.random()*6}s;
+                    filter:blur(${Math.random()*1.5}px);
+                    box-shadow:0 0 ${size*3}px ${colors[Math.floor(Math.random()*colors.length)]};
+                `;
+                container.appendChild(p);
+            }
+        })();
     </script>
 </body>
 
