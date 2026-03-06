@@ -7,7 +7,7 @@ A simple stopwatch built with **C# Windows Forms** as a group project. It suppor
 The app is split into two parts:
 
 - **StopwatchEngine** — a plain C# class that handles all the timing logic (counting seconds, formatting the display, managing state). This is completely independent of the UI, which makes it easy to test.
-- **Form1 (UI)** — the WinForms window with five buttons and a timer label. A `System.Windows.Forms.Timer` fires every second and calls `Tick()` on the engine, then updates the label.
+- **Form1 (UI)** — the WinForms window that hosts a WebView2 control. The HTML/CSS/JS frontend in `wwwroot/` handles the display, and communicates with the C# backend via WebView2 messaging.
 
 ### Button Behavior
 
@@ -22,8 +22,9 @@ The app is split into two parts:
 ## How to Run
 
 ### Prerequisites
-- .NET 10 SDK (or later) — [download here](https://dotnet.microsoft.com/download)
+- .NET 7.0 SDK — [download here](https://dotnet.microsoft.com/download)
 - Windows (WinForms requires it)
+- WebView2 Runtime (included in modern Windows)
 
 ### Steps
 
@@ -47,14 +48,17 @@ The app is split into two parts:
 
 ```
 Stopwatch Application/
-├── StopwatchApp/                  # Main WinForms project
-│   ├── Form1.cs                   # Button handlers and UI logic
-│   ├── Form1.Designer.cs          # UI layout (controls, colors, positions)
-│   ├── StopwatchEngine.cs         # Core stopwatch logic (testable)
-│   └── Program.cs                 # Entry point
-├── StopwatchApp.Tests/            # NUnit test project
-│   └── StopwatchEngineTests.cs    # Unit tests for the engine
-├── StopwatchApp.sln               # Solution file
+├── StopwatchApp/
+│   ├── Form1.cs                   # WebView2 bridge and event handling
+│   ├── Form1.Designer.cs          # UI layout
+│   ├── StopwatchEngine.cs         # Core stopwatch logic
+│   ├── Program.cs                 # Entry point
+│   └── wwwroot/                   # HTML/CSS/JS frontend
+│       ├── index.html
+│       └── style.css
+├── StopwatchApp.Tests/
+│   └── StopwatchEngineTests.cs
+├── StopwatchApp.sln
 └── README.md
 ```
 
