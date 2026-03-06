@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Stopwatch</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="glass-panel">
+            <h1 class="title">Stopwatch</h1>
+            <div class="timer-display" id="timer">00:00:00</div>
+            <div class="status" id="status">Ready</div>
+
+            <div class="controls">
+                <button id="btnStart" class="btn btn-primary" onclick="sendMessage('start')">Start</button>
+                <button id="btnPause" class="btn btn-warning" onclick="sendMessage('pause')" disabled>Pause</button>
+                <button id="btnResume" class="btn btn-success" onclick="sendMessage('resume')" disabled>Resume</button>
+                <button id="btnReset" class="btn btn-info" onclick="sendMessage('reset')" disabled>Reset</button>
+                <button id="btnStop" class="btn btn-danger" onclick="sendMessage('stop')" disabled>Stop</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage(action) {
+            if (window.chrome && window.chrome.webview) {
+                // Send as a plain string for simpler handling in C#
+                window.chrome.webview.postMessage(action);
+            }
+        }
+
+        window.chrome.webview.addEventListener('message', event => {
+            const data = event.data;
+            if (data.type === 'updateDisplay') {
+                document.getElementById('timer').innerText = data.time;
+            } else if (data.type === 'updateStatus') {
+                document.getElementById('status').innerText = data.status;
+            } else if (data.type === 'updateButtons') {
+                updateButtonStates(data.running, data.paused);
+            }
+        });
+
+        function updateButtonStates(running, paused) {
+            const btnStart = document.getElementById('btnStart');
+            const btnPause = document.getElementById('btnPause');
+            const btnResume = document.getElementById('btnResume');
+            const btnReset = document.getElementById('btnReset');
+            const btnStop = document.getElementById('btnStop');
+            const timer = document.getElementById('timer');
+
+            if (running && !paused) {
+                timer.classList.add('running');
+            } else {
+                timer.classList.remove('running');
+            }
+
+            if (running) {
+                btnStart.disabled = true;
+                btnPause.disabled = paused;
+                btnResume.disabled = !paused;
+                btnReset.disabled = false;
+                btnStop.disabled = false;
+            } else {
+                btnStart.disabled = false;
+                btnPause.disabled = true;
+                btnResume.disabled = true;
+                btnReset.disabled = true;
+                btnStop.disabled = true;
+            }
+        }
+    </script>
+</body>
+
+</html>
