@@ -81,5 +81,5 @@ dotnet test
 ## Team Members
 
 - Ishimwe Bruno
--Thierry Gusenga
--Ntare Gama
+- Thierry Gusenga
+- Ntare Gama
