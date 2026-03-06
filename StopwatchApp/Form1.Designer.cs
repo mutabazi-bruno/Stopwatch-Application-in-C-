@@ -44,7 +44,7 @@ partial class Form1
         ClientSize = new Size(800, 600);
         Controls.Add(webView);
         Name = "Form1";
-        Text = "Premium Stopwatch";
+        Text = "Stopwatch";
         StartPosition = FormStartPosition.CenterScreen;
         
         ((System.ComponentModel.ISupportInitialize)webView).EndInit();
