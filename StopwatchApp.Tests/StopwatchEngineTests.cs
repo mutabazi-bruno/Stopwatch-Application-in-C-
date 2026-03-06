@@ -3,19 +3,11 @@ using StopwatchApp;
 
 namespace StopwatchApp.Tests
 {
-    /// <summary>
-    /// Tests for the StopwatchEngine class.
-    /// We test each operation (start, pause, resume, reset, stop, tick)
-    /// to make sure the core logic works before wiring it to the UI.
-    /// </summary>
     [TestFixture]
     public class StopwatchEngineTests
     {
         private StopwatchEngine _engine;
 
-        /// <summary>
-        /// Gives us a clean engine before every test so nothing leaks between them.
-        /// </summary>
         [SetUp]
         public void Setup()
         {
