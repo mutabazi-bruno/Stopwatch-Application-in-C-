@@ -3,11 +3,18 @@ using StopwatchApp;
 
 namespace StopwatchApp.Tests
 {
+    /// <summary>
+    /// Unit tests for the StopwatchEngine class.
+    /// Covers start, pause, resume, reset, stop, tick, and time formatting.
+    /// </summary>
     [TestFixture]
     public class StopwatchEngineTests
     {
         private StopwatchEngine _engine;
 
+        /// <summary>
+        /// Creates a fresh engine before each test so nothing carries over.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
